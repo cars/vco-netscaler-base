@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package id="ff80808148f08a600148f09ab83e118e">
-    <name>org.lostroncos.library.netscaler.base-1.0.0-SNAPSHOT</name>
+    <name>org.lostroncos.library.netscaler.base-1.1.0</name>
     <description/>
     <workflows>
         <id-8272e24a-7b26-4c43-b5b9-fb4f4d62e7e8 path="Library/Citrix NetScaler/Configuration/Create Worflows from REST Operations.workflow.xml"/>
