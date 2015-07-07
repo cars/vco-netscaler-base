@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="8272e24a-7b26-4c43-b5b9-fb4f4d62e7e8" version="0.0.16" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Create Worflows from REST Operations</display-name>
+
+    <description>Given a RESTHost this workflow will create a workflow for each REST Operation defined on the host</description>
+
+    <position x="100.0" y="50.0"/>
+
+    <input>
+        <param name="nsRestHost" type="REST:RESTHost">
+            <description>netScaler Host we want to create all the Workflows for.</description>
+        </param>
+        <param name="destinationFolder" type="WorkflowCategory">
+            <description>folder where the new workflows should be placed.</description>
+        </param>
+    </input>
+
+    <workflow-item name="item0" type="end" end-mode="0">
+        <position x="524.5" y="45.40909090909091"/>
+    </workflow-item>
+
+    <workflow-item name="item1" out-name="item0" type="task">
+        <display-name>Create Workflows from Operations</display-name>
+
+        <script encoded="false">
+//
+//
+//  array of REST Operations associates with this host
+var arrRestOperations;
+//  
+var restOperation;
+// loop counters
+var idx;
+var idx2;
+
+//
+var newWorkflow;
+//
+var workflowName;
+// We want to rename the workflow to something different than the Operation name
+// so we split it and do stuff
+var arrWorkflowNameComponents;
+// some counters so we can report at the end on what we think we did
+var numWorkflows;
+var numAdded = 0;
+var numFailed = 0;
+
+arrRestOperations = nsRestHost.getOperations();
+numWorkflows = arrRestOperations.length;
+// loop through our list of Operations
+for (idx=0; idx &lt; arrRestOperations.length; idx++) {
+	restOperation = nsRestHost.getOperation(arrRestOperations[idx]);		
+	System.log("Working on operation: " +restOperation.method + "|" + restOperation.name);
+	// Let's Munge the name of the Operation if its of form  A-B-C-D make it A: B C D
+	arrWorkflowNameComponents = restOperation.name.split("-");
+	if (arrWorkflowNameComponents.length &gt; 1){
+		System.log("\tModifying operation name for new workflow");
+		workflowName = arrWorkflowNameComponents[0] + ":";
+		for (idx2 = 1;idx2 &lt; arrWorkflowNameComponents.length; idx2++){
+			workflowName += " " + arrWorkflowNameComponents[idx2];
+		}
+	} else {
+		//looks different so we'll just use the RESTOperation name
+		workflowName = restOperation.name;
+	}
+	System.log("Trying to add:"+ workflowName);
+	try {
+		newWorkflow = RESTHostManager.createWorkflow(restOperation,workflowName,destinationFolder,"");
+		numAdded+=1;
+	}catch(ex) {
+		System.error("Error trying to add workflow: " + workflowName );
+		System.error("\tError was:"+ex);	
+		numFailed+=1;
+	}
+}
+System.log("There were "+ numWorkflows + " workflows on this host");
+System.log("\tAdded "+ numAdded +" successfully");
+System.log("\t"+numFailed + " workflows weren't able to be added");
+        </script>
+
+        <in-binding>
+            <bind name="nsRestHost" type="REST:RESTHost" export-name="nsRestHost">
+                <description>netScaler Host we want to create all the Workflows for.</description>
+            </bind>
+            <bind name="destinationFolder" type="WorkflowCategory" export-name="destinationFolder"/>
+        </in-binding>
+
+        <out-binding/>
+
+        <position x="204.5" y="55.40909090909091"/>
+    </workflow-item>
+
+    <presentation>
+        <p-param name="nsRestHost">
+            <desc>netScaler Host we want to create all the Workflows for.</desc>
+            <p-qual kind="static" name="mandatory" type="boolean">true</p-qual>
+        </p-param>
+        <p-param name="destinationFolder">
+            <desc>Folder where resulting where resulting workflows should be placed.</desc>
+            <p-qual kind="static" name="defaultValue" type="WorkflowCategory">dunes://service.dunes.ch/WorkflowCategory?id='ff808081438575630143884ac3ea00af'&amp;dunesName='WorkflowCategory'</p-qual>
+            <p-qual kind="static" name="mandatory" type="boolean">true</p-qual>
+        </p-param>
+    </presentation>
+</workflow>

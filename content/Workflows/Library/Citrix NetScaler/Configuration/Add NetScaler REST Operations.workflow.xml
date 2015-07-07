@@ -1,21 +1,31 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83"  version="0.0.37" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0" >
-<display-name><![CDATA[Add NetScaler REST Operations]]></display-name>
-<description><![CDATA[Workflow to add a specified set of Rest Operations to a specified NetScaler RESTHost. Done for consistency based on code and an idea from  http://www.vcoflow.co.uk/
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="0.0.37" api-version="3.1.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Add NetScaler REST Operations</display-name>
+
+    <description>
+Workflow to add a specified set of Rest Operations to a specified NetScaler RESTHost. Done for consistency based on code and an idea from  http://www.vcoflow.co.uk/
 
 Method_Netscaler-ObjectType-Operation, "REST URL Params"
 ("post_NetScaler-Vserver-Add","/lbvserver");
-]]></description>
-<position x='100.0' y='50.0'/>
-<input><param name='NetScalerHost' type='REST:RESTHost' >
-<description><![CDATA[Netscaler Instance we want to add the operations to. ]]></description>
-</param>
-</input><workflow-item name='item0' type='end' end-mode='0' >
-<position x='384.5' y='45.40909090909091'/>
-</workflow-item>
-<workflow-item name='item1' out-name='item0' type='task' >
-<display-name><![CDATA[Create NetScaler Rest Operations]]></display-name>
-<script encoded='false'><![CDATA[//Based on code and an idea from http://www.vcoflow.co.uk/
+    </description>
+
+    <position x="100.0" y="50.0"/>
+
+    <input>
+        <param name="NetScalerHost" type="REST:RESTHost">
+            <description>Netscaler Instance we want to add the operations to.</description>
+        </param>
+    </input>
+
+    <workflow-item name="item0" type="end" end-mode="0">
+        <position x="384.5" y="45.40909090909091"/>
+    </workflow-item>
+
+    <workflow-item name="item1" out-name="item0" type="task">
+        <display-name>Create NetScaler Rest Operations</display-name>
+
+        <script encoded="false">
+//Based on code and an idea from http://www.vcoflow.co.uk/
 
 
 var objProperties;
@@ -83,7 +93,7 @@ var objProperties;
 	//#######################################################################
 	//Service Group Binding
 	objProperties.put("post_NetScaler-ServiceGroupMember-Add","/servicegroup_servicegroupmember_binding");
-	objProperties.put("delete_NetScaler-ServiceGroupMember-Delete","/servicegroup_servicegroupmember_binding/{serviceGroupName}?warning=yes&args=servername={serverName},port:{serverPort}");
+	objProperties.put("delete_NetScaler-ServiceGroupMember-Delete","/servicegroup_servicegroupmember_binding/{serviceGroupName}?warning=yes&amp;args=servername={serverName},port:{serverPort}");
 	objProperties.put("get_NetScaler-ServiceGroupMember-Get","/servicegroup_servicegroupmember_binding/{serviceGroupName}");
 	
 	//#######################################################################
@@ -115,7 +125,7 @@ var arrKeys;
     arrKeys = objProperties.keys;
  
  System.log("Starting Loop\n");
-    for ( var i = 0; i < arrKeys.length; i++ )
+    for ( var i = 0; i &lt; arrKeys.length; i++ )
     {
         var strKey;
             strKey = arrKeys[i];
@@ -143,11 +153,21 @@ var arrKeys;
 	        objRESTOperation = NetScalerHost.addOperation(objRESTOperation);
 			RESTHostManager.updateHost(NetScalerHost);
     }
-]]></script>
-<in-binding><bind name='NetScalerHost' type='REST:RESTHost' export-name="NetScalerHost" ></bind>
-</in-binding><out-binding></out-binding><position x='204.5' y='55.40909090909091'/>
-</workflow-item>
-<presentation>
-<p-param name="NetScalerHost"><desc><![CDATA[NetscalerHost]]></desc>
-<p-qual kind="static" name="mandatory" type="boolean" ><![CDATA[true]]></p-qual></p-param>
-</presentation></workflow>
+        </script>
+
+        <in-binding>
+            <bind name="NetScalerHost" type="REST:RESTHost" export-name="NetScalerHost"/>
+        </in-binding>
+
+        <out-binding/>
+
+        <position x="204.5" y="55.40909090909091"/>
+    </workflow-item>
+
+    <presentation>
+        <p-param name="NetScalerHost">
+            <desc>NetscalerHost</desc>
+            <p-qual kind="static" name="mandatory" type="boolean">true</p-qual>
+        </p-param>
+    </presentation>
+</workflow>
