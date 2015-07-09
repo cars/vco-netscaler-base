@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="3.0.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="3.2.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
     <display-name>Add NetScaler REST Operations</display-name>
 
     <description>
@@ -37,16 +37,16 @@ var objProperties;
 	
 	//#######################################################################
 	//Virtual Server Operations 
-	objProperties.put("post_NetScaler-Vserver-Add","/lbvserver");
-	objProperties.put("delete_NetScaler-Vserver-Delete","/lbvserver/{vserverName}");
-	objProperties.put("put_NetScaler-Vserver-Update","/lbvserver");
-	objProperties.put("post_NetScaler-Vserver-Unset","/lbvserver?action=unset");
-	objProperties.put("post_NetScaler-Vserver-Enable","/lbvserver?action=enable");
-	objProperties.put("post_NetScaler-Vserver-Disable","/lbvserver?action=disable");
-	objProperties.put("post_NetScaler-Vserver-Rename","/lbvserver?action=rename");
-	objProperties.put("get_NetScaler-Vservers-GetAll", "/lbvserver");
+	objProperties.put("post_NetScaler-LBVserver-Add","/lbvserver");
+	objProperties.put("delete_NetScaler-LBVserver-Delete","/lbvserver/{vserverName}");
+	objProperties.put("put_NetScaler-LBVserver-Update","/lbvserver");
+	objProperties.put("post_NetScaler-LBVserver-Unset","/lbvserver?action=unset");
+	objProperties.put("post_NetScaler-LBVserver-Enable","/lbvserver?action=enable");
+	objProperties.put("post_NetScaler-LBVserver-Disable","/lbvserver?action=disable");
+	objProperties.put("post_NetScaler-LBVserver-Rename","/lbvserver?action=rename");
+	objProperties.put("get_NetScaler-LBVserver-GetAll", "/lbvserver");
 	objProperties.put("get_NetScaler-VServers-GetAll-Summary", "/lbvserver?view=summary");
-	objProperties.put("get_NetScaler-Vserver-Get","/lbvserver/{vserverName}");
+	objProperties.put("get_NetScaler-LBVserver-Get","/lbvserver/{vserverName}");
 	
 	//Virtual Server Service and Service Group  Binding
 	objProperties.put("put_NetScaler-VServer-Add-ServiceGroup","/lbvserver_servicegroup_binding");
@@ -55,7 +55,6 @@ var objProperties;
 	objProperties.put("post_NetScaler-VServer-Add-Service","/lbvserver_service_binding");
 	objProperties.put("delete_NetScaler-VServer-Delete-Service","/lbvserver_service_binding/{vserverName}?args=servicename:{serviceName}");
 	objProperties.put("get_NetScaler-VServer-Get-Services","/lbvserver_service_binding/{vserverName}");
-	
 	
 	//#######################################################################
 	//SSL Certificate Stuff
