@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="4.1.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="4.2.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
     <display-name>Add NetScaler REST Operations</display-name>
 
     <description>
@@ -52,9 +52,9 @@ var objProperties;
 	objProperties.put("put|NetScaler-LBVserver_ServiceGroup_Binding-Add","/lbvserver_servicegroup_binding");
 	objProperties.put("delete|NetScaler-LBVserver_ServiceGroup_Binding-Delete","/lbvserver_servicegroup_binding/{vserverName}?args=servicegroupname:{serviceGroupName}");
 	objProperties.put("get|NetScaler-LBVserver_ServiceGroup_Binding-Get","/lbvserver_servicegroup_binding/{vserverName}");
-	objProperties.put("post|NetScaler-LBVserver_ServiceGroup_Binding-Add","/lbvserver_service_binding");
-	objProperties.put("delete|NetScaler-LBVserver_ServiceGroup_Binding-Delete","/lbvserver_service_binding/{vserverName}?args=servicename:{serviceName}");
-	objProperties.put("get|NetScaler-LBVserver_ServiceGroup_Binding-Get","/lbvserver_service_binding/{vserverName}");
+	objProperties.put("post|NetScaler-LBVserver_Service_Binding-Add","/lbvserver_service_binding");
+	objProperties.put("delete|NetScaler-LBVserver_Service_Binding-Delete","/lbvserver_service_binding/{vserverName}?args=servicename:{serviceName}");
+	objProperties.put("get|NetScaler-LBVserver_Service_Binding-Get","/lbvserver_service_binding/{vserverName}");
 	
 	//#######################################################################
 	//SSL Certificate Stuff
