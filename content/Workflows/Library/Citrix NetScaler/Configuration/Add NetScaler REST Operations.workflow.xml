@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="3.2.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="4.0.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
     <display-name>Add NetScaler REST Operations</display-name>
 
     <description>
@@ -48,34 +48,34 @@ var objProperties;
 	objProperties.put("get_NetScaler-VServers-GetAll-Summary", "/lbvserver?view=summary");
 	objProperties.put("get_NetScaler-LBVserver-Get","/lbvserver/{vserverName}");
 	
-	//Virtual Server Service and Service Group  Binding
-	objProperties.put("put_NetScaler-VServer-Add-ServiceGroup","/lbvserver_servicegroup_binding");
-	objProperties.put("delete_NetScaler-VServer-Delete-ServiceGroup","/lbvserver_servicegroup_binding/{vserverName}?args=servicegroupname:{serviceGroupName}");
-	objProperties.put("get_NetScaler-VServer-Get-ServiceGroups","/lbvserver_servicegroup_binding/{vserverName}");
-	objProperties.put("post_NetScaler-VServer-Add-Service","/lbvserver_service_binding");
-	objProperties.put("delete_NetScaler-VServer-Delete-Service","/lbvserver_service_binding/{vserverName}?args=servicename:{serviceName}");
-	objProperties.put("get_NetScaler-VServer-Get-Services","/lbvserver_service_binding/{vserverName}");
+	//Virtual Server Service and Service Group Binding
+	objProperties.put("put_NetScaler-LBVserver_ServiceGroup_Binding-Add","/lbvserver_servicegroup_binding");
+	objProperties.put("delete_NetScaler-LBVserver_ServiceGroup_Binding-Delete","/lbvserver_servicegroup_binding/{vserverName}?args=servicegroupname:{serviceGroupName}");
+	objProperties.put("get_NetScaler-LBVserver_ServiceGroup_Binding-Get","/lbvserver_servicegroup_binding/{vserverName}");
+	objProperties.put("post_NetScaler-LBVserver_ServiceGroup_Binding-Add","/lbvserver_service_binding");
+	objProperties.put("delete_NetScaler-LBVserver_ServiceGroup_Binding-Delete","/lbvserver_service_binding/{vserverName}?args=servicename:{serviceName}");
+	objProperties.put("get_NetScaler-LBVserver_ServiceGroup_Binding-Get","/lbvserver_service_binding/{vserverName}");
 	
 	//#######################################################################
 	//SSL Certificate Stuff
 	//-----------------------------------------------------------------------------------------------
 	//Certificate Binding
-	objProperties.put("post_NetScaler-SSLServer-Certificate-Binding-Add","/sslvserver_sslcertkey_binding");
+	objProperties.put("post_NetScaler-SSLVServer_SSLCertKey_Binding-Add","/sslvserver_sslcertkey_binding");
 	objProperties.put("delete_NetScaler-SSLServer-Certificate-Bind-Delete","/sslvserver_sslcertkey_binding/{vserverName}?args={certKeyName}");
-	objProperties.put("get_NetScaler-SSLServer-Certificate-Binding-Get","/sslvserver_sslcertkey_binding/{vserverName}");
+	objProperties.put("get_NetScaler-SSLVServer_SSLCertKey_Binding-Get","/sslvserver_sslcertkey_binding/{vserverName}");
 	
 	//-----------------------------------------------------------------------------------------------
 	//Certificate Mgmt
-	objProperties.put("put_NetScaler-SSLCertificate-Register","/sslcertkey");
-	objProperties.put("delete_NetScaler-SSLCertificate-Binding-Add","/sslcertkey/{certKeyName}");
-	objProperties.put("put_NetScaler-SSLCertificate-Binding-Update","/sslcertkey");
-	objProperties.put("post_NetScaler-SSLCertificate-Binding-Unset","/sslcertkey?action=unset");
-	objProperties.put("post_NetScaler-SSLCertificate-Binding-Link","/sslcertkey?action=link");
-	objProperties.put("post_NetScaler-SSLCertificate-Binding-Unlink","/sslcertkey?action=unlink");
-	objProperties.put("post_NetScaler-SSLCertificate-Binding-Change","/sslcertkey?action=update");
-	objProperties.put("get_NetScaler-SSLCertificate-Binding-GetAll","/sslcertkey");
-	objProperties.put("get_NetScaler-SSLCertificate-Binding-GetAll-SummaryView","/sslcertkey?view=summary");
-	objProperties.put("get_NetScaler-SSLCertificate-Binding-Get","/sslcertkey/{certKeyName}");
+	objProperties.put("put_NetScaler-SSLCertKey-Register","/sslcertkey");
+	objProperties.put("delete_NetScaler-SSLCertKey-Add","/sslcertkey/{certKeyName}");
+	objProperties.put("put_NetScaler-SSLCertKey-Update","/sslcertkey");
+	objProperties.put("post_NetScaler-SSLCertKey-Unset","/sslcertkey?action=unset");
+	objProperties.put("post_NetScaler-SSLCertKey-Link","/sslcertkey?action=link");
+	objProperties.put("post_NetScaler-SSLCertKey-Unlink","/sslcertkey?action=unlink");
+	objProperties.put("post_NetScaler-SSLCertKey-Change","/sslcertkey?action=update");
+	objProperties.put("get_NetScaler-SSLCertKey-GetAll","/sslcertkey");
+	objProperties.put("get_NetScaler-SSLCertKey-GetAll-SummaryView","/sslcertkey?view=summary");
+	objProperties.put("get_NetScaler-SSLCertKey-Get","/sslcertkey/{certKeyName}");
 	
 
 	//#######################################################################
@@ -93,9 +93,9 @@ var objProperties;
 	
 	//#######################################################################
 	//Service Group Binding
-	objProperties.put("post_NetScaler-ServiceGroupMember-Add","/servicegroup_servicegroupmember_binding");
-	objProperties.put("delete_NetScaler-ServiceGroupMember-Delete","/servicegroup_servicegroupmember_binding/{serviceGroupName}?warning=yes&amp;args=servername={serverName},port:{serverPort}");
-	objProperties.put("get_NetScaler-ServiceGroupMember-Get","/servicegroup_servicegroupmember_binding/{serviceGroupName}");
+	objProperties.put("post_NetScaler-ServiceGroup_ServiceGroupMember_Binding-Add","/servicegroup_servicegroupmember_binding");
+	objProperties.put("delete_NetScaler-ServiceGroup_ServiceGroupMember_Binding-Delete","/servicegroup_servicegroupmember_binding/{serviceGroupName}?warning=yes&amp;args=servername={serverName},port:{serverPort}");
+	objProperties.put("get_NetScaler-ServiceGroup_ServiceGroupMember_Binding-Get","/servicegroup_servicegroupmember_binding/{serviceGroupName}");
 	
 	//#######################################################################
 	//Service Operations
@@ -138,10 +138,10 @@ var objProperties;
 	
 	//#######################################################################
 	//Content Switching Virtual Server Policy Binding Operations
-	objProperties.put("post_NetScaler-CSvserver-Add-CSPolicy","/csvserver_cspolicy_binding");
-	objProperties.put("delete_NetScaler-VServer-Delete-CSPolicy","/csvserver_cspolicy_binding/{csvserverName}?args=policyname:{policyName}");
-	objProperties.put("put_NetScaler-CSvserver-Update-CSPolicy","/csvserver_cspolicy_binding/{csvserverName}");
-	objProperties.put("get_NetScaler-CSvserver-Get-CSPolicy","/csvserver_cspolicy_binding/{csvserverName}");
+	objProperties.put("post_NetScaler-CSvserver_CSPolicy_Binding-Add","/csvserver_cspolicy_binding");
+	objProperties.put("delete_NetScaler-CSvserver_CSPolicy_Binding-Delete","/csvserver_cspolicy_binding/{csvserverName}?args=policyname:{policyName}");
+	objProperties.put("put_NetScaler-CSvserver_CSPolicy_Binding-Update","/csvserver_cspolicy_binding/{csvserverName}");
+	objProperties.put("get_NetScaler-CSvserver_CSPolicy_Binding-Get","/csvserver_cspolicy_binding/{csvserverName}");
 	
 	//#######################################################################
 	//Content Switch Policy Operations	
