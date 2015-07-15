@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="4.2.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Add NetScaler REST Operations</display-name>
+
+    <description>
+Workflow to add a specified set of Rest Operations to a specified NetScaler RESTHost. Done for consistency based on code and an idea from  http://www.vcoflow.co.uk/
+
+Method_Netscaler-ObjectType-Operation, "REST URL Params"
+("post_NetScaler-Vserver-Add","/lbvserver");
+    </description>
+
+    <position x="100.0" y="50.0"/>
+
+    <input>
+        <param name="NetScalerHost" type="REST:RESTHost">
+            <description>Netscaler Instance we want to add the operations to.</description>
+        </param>
+    </input>
+
+    <workflow-item name="item0" type="end" end-mode="0">
+        <position x="384.5" y="45.40909090909091"/>
+    </workflow-item>
+
+    <workflow-item name="item1" out-name="item0" type="task">
+        <display-name>Create NetScaler Rest Operations</display-name>
+
+        <script encoded="false">
+//Based on code and an idea from http://www.vcoflow.co.uk/
+
+
+var objProperties;
+    objProperties = new Properties();
+
+	//#######################################################################
+	//Login - Currently Unused
+	objProperties.put("get|NetScaler-login", "/rest");
+	
+	//#######################################################################
+	//Virtual Server Operations 
+	objProperties.put("post|NetScaler-LBVserver-Add","/lbvserver");
+	objProperties.put("delete|NetScaler-LBVserver-Delete","/lbvserver/{vserverName}");
+	objProperties.put("put|NetScaler-LBVserver-Update","/lbvserver");
+	objProperties.put("post|NetScaler-LBVserver-Unset","/lbvserver?action=unset");
+	objProperties.put("post|NetScaler-LBVserver-Enable","/lbvserver?action=enable");
+	objProperties.put("post|NetScaler-LBVserver-Disable","/lbvserver?action=disable");
+	objProperties.put("post|NetScaler-LBVserver-Rename","/lbvserver?action=rename");
+	objProperties.put("get|NetScaler-LBVserver-GetAll", "/lbvserver");
+	objProperties.put("get|NetScaler-VServers-GetAll-Summary", "/lbvserver?view=summary");
+	objProperties.put("get|NetScaler-LBVserver-Get","/lbvserver/{vserverName}");
+	
+	//Virtual Server Service and Service Group Binding
+	objProperties.put("put|NetScaler-LBVserver_ServiceGroup_Binding-Add","/lbvserver_servicegroup_binding");
+	objProperties.put("delete|NetScaler-LBVserver_ServiceGroup_Binding-Delete","/lbvserver_servicegroup_binding/{vserverName}?args=servicegroupname:{serviceGroupName}");
+	objProperties.put("get|NetScaler-LBVserver_ServiceGroup_Binding-Get","/lbvserver_servicegroup_binding/{vserverName}");
+	objProperties.put("post|NetScaler-LBVserver_Service_Binding-Add","/lbvserver_service_binding");
+	objProperties.put("delete|NetScaler-LBVserver_Service_Binding-Delete","/lbvserver_service_binding/{vserverName}?args=servicename:{serviceName}");
+	objProperties.put("get|NetScaler-LBVserver_Service_Binding-Get","/lbvserver_service_binding/{vserverName}");
+	
+	//#######################################################################
+	//SSL Certificate Stuff
+	//-----------------------------------------------------------------------------------------------
+	//Certificate Binding
+	objProperties.put("post|NetScaler-SSLVServer_SSLCertKey_Binding-Add","/sslvserver_sslcertkey_binding");
+	objProperties.put("delete|NetScaler-SSLVServer_SSLCertKey_Binding-Delete","/sslvserver_sslcertkey_binding/{vserverName}?args={certKeyName}");
+	objProperties.put("get|NetScaler-SSLVServer_SSLCertKey_Binding-Get","/sslvserver_sslcertkey_binding/{vserverName}");
+	
+	//-----------------------------------------------------------------------------------------------
+	//Certificate Mgmt
+	objProperties.put("put|NetScaler-SSLCertKey-Register","/sslcertkey");
+	objProperties.put("delete|NetScaler-SSLCertKey-Add","/sslcertkey/{certKeyName}");
+	objProperties.put("put|NetScaler-SSLCertKey-Update","/sslcertkey");
+	objProperties.put("post|NetScaler-SSLCertKey-Unset","/sslcertkey?action=unset");
+	objProperties.put("post|NetScaler-SSLCertKey-Link","/sslcertkey?action=link");
+	objProperties.put("post|NetScaler-SSLCertKey-Unlink","/sslcertkey?action=unlink");
+	objProperties.put("post|NetScaler-SSLCertKey-Change","/sslcertkey?action=update");
+	objProperties.put("get|NetScaler-SSLCertKey-GetAll","/sslcertkey");
+	objProperties.put("get|NetScaler-SSLCertKey-GetAll-SummaryView","/sslcertkey?view=summary");
+	objProperties.put("get|NetScaler-SSLCertKey-Get","/sslcertkey/{certKeyName}");
+	
+
+	//#######################################################################
+	//Service Group Operations
+	objProperties.put("post|NetScaler-ServiceGroup-Add","/servicegroup");
+	objProperties.put("delete|NetScaler-ServiceGroup-Delete","/servicegroup/{serviceGroupName}?warning=yes");
+	objProperties.put("put|NetScaler-ServiceGroup-Update","/servicegroup");
+	objProperties.put("post|NetScaler-ServiceGroup-Unset","/servicegroup?action=unset");
+	objProperties.put("post|NetScaler-ServiceGroup-Enable","/servicegroup?action=enable");
+	objProperties.put("post|NetScaler-ServiceGroup-Disable","/servicegroup?action=disable");
+	objProperties.put("post|NetScaler-ServiceGroup-Rename","/servicegroup?action=renamte");
+	objProperties.put("get|NetScaler-ServiceGroup-GetAll","/servicegroup");
+	objProperties.put("get|NetScaler-ServiceGroup-GetAll-Summary","/servicegroup?view=summary");
+	objProperties.put("get|NetScaler-ServiceGroup-Get","/servicegroup/{serviceGroupName}");
+	
+	//#######################################################################
+	//Service Group Binding
+	objProperties.put("post|NetScaler-ServiceGroup_ServiceGroupMember_Binding-Add","/servicegroup_servicegroupmember_binding");
+	objProperties.put("delete|NetScaler-ServiceGroup_ServiceGroupMember_Binding-Delete","/servicegroup_servicegroupmember_binding/{serviceGroupName}?warning=yes&amp;args=servername={serverName},port:{serverPort}");
+	objProperties.put("get|NetScaler-ServiceGroup_ServiceGroupMember_Binding-Get","/servicegroup_servicegroupmember_binding/{serviceGroupName}");
+	
+	//#######################################################################
+	//Service Operations
+	objProperties.put("post|NetScaler-Service-Add","/service");
+	objProperties.put("delete|NetScaler-Service-Delete","/service/{serviceName}?warning=yes");
+	objProperties.put("put|NetScaler-Service-Update","/service");
+	objProperties.put("post|NetScaler-Service-Unset","/service?action=unset");
+	objProperties.put("post|NetScaler-Service-Enable","/service?action=enable");
+	objProperties.put("post|NetScaler-Service-Disable","/service?action=disable");
+	objProperties.put("post|NetScaler-Service-Rename","/service?action=rename");
+	objProperties.put("get|NetScaler-Service-GetAll","/service");
+	objProperties.put("get|NetScaler-Service-GetAll-Summary","/service?view=summary");
+	objProperties.put("get|NetScaler-Service-Get","/service/{serviceName}");
+	
+	//#######################################################################
+	//Server Operations
+	objProperties.put("post|NetScaler-Server-Add","/server");
+	objProperties.put("delete|NetScaler-Server-Delete","/server/{serviceName}?warning=yes");
+	objProperties.put("put|NetScaler-Server-Update","/server");
+	objProperties.put("post|NetScaler-Server-Unset","/server?action=unset");
+	objProperties.put("post|NetScaler-Server-Enable","/server?action=enable");
+	objProperties.put("post|NetScaler-Server-Disable","/server?action=disable");
+	objProperties.put("post|NetScaler-Server-Rename","/server?action=rename");
+	objProperties.put("get|NetScaler-Server-GetAll","/server");
+	objProperties.put("get|NetScaler-Server-GetAll-Summary","/server?view=summary");
+	objProperties.put("get|NetScaler-Server-Get","/server/{serverName}");
+	
+	//#######################################################################
+	//Content Switching Virtual Server Operations	
+	objProperties.put("post|NetScaler-CSvserver-Add","/csvserver");
+	objProperties.put("delete|NetScaler-CSvserver-Delete","/csvserver/{serviceName}?warning=yes");
+	objProperties.put("put|NetScaler-CSvserver-Update","/csvserver");
+	objProperties.put("post|NetScaler-CSvserver-Unset","/csvserver?action=unset");
+	objProperties.put("post|NetScaler-CSvserver-Enable","/csvserver?action=enable");
+	objProperties.put("post|NetScaler-CSvserver-Disable","/csvserver?action=disable");
+	objProperties.put("post|NetScaler-CSvserver-Rename","/csvserver?action=rename");
+	objProperties.put("get|NetScaler-CSvserver-GetAll","/csvserver");
+	objProperties.put("get|NetScaler-CSvserver-GetAll-Summary","/csvserver?view=summary");
+	objProperties.put("get|NetScaler-CSvserver-Get","/csvserver/{csvserverName}");
+	
+	//#######################################################################
+	//Content Switching Virtual Server Policy Binding Operations
+	objProperties.put("post|NetScaler-CSvserver_CSPolicy_Binding-Add","/csvserver_cspolicy_binding");
+	objProperties.put("delete|NetScaler-CSvserver_CSPolicy_Binding-Delete","/csvserver_cspolicy_binding/{csvserverName}?args=policyname:{policyName}");
+	objProperties.put("put|NetScaler-CSvserver_CSPolicy_Binding-Update","/csvserver_cspolicy_binding/{csvserverName}");
+	objProperties.put("get|NetScaler-CSvserver_CSPolicy_Binding-Get","/csvserver_cspolicy_binding/{csvserverName}");
+	
+	//#######################################################################
+	//Content Switch Policy Operations	
+	objProperties.put("post|NetScaler-CSpolicy-Add","/cspolicy");
+	objProperties.put("delete|NetScaler-CSpolicy-Delete","/cspolicy/{serviceName}?warning=yes");
+	objProperties.put("put|NetScaler-CSpolicy-Update","/cspolicy");
+	objProperties.put("post|NetScaler-CSpolicy-Unset","/cspolicy?action=unset");
+	objProperties.put("post|NetScaler-CSpolicy-Enable","/cspolicy?action=enable");
+	objProperties.put("post|NetScaler-CSpolicy-Disable","/cspolicy?action=disable");
+	objProperties.put("post|NetScaler-CSpolicy-Rename","/cspolicy?action=rename");
+	objProperties.put("get|NetScaler-CSpolicy-GetAll","/cspolicy");
+	objProperties.put("get|NetScaler-CSpolicy-GetAll-Summary","/cspolicy?view=summary");
+	objProperties.put("get|NetScaler-CSpolicy-Get","/cspolicy/{cspolicyName}");
+	
+var arrKeys;
+    arrKeys = objProperties.keys;
+ 
+ System.log("Starting Loop\n");
+    for ( var i = 0; i &lt; arrKeys.length; i++ )
+    {
+        var strKey;
+            strKey = arrKeys[i];
+
+        var arrKey = new Array();
+            arrKey = strKey.split('|');
+
+ 		var strOperationName;
+			strOperationName = arrKey[1];
+
+        var strMethod;
+            strMethod = arrKey[0].toUpperCase();
+	
+        var strTemplateURL;
+            strTemplateURL = objProperties.get(strKey);
+			
+		var strTemplateURLSplit;
+			strTemplateURLSplit = strTemplateURL.split('/');
+		
+		var strTemplateURLSplit2;
+			strTemplateURLSplit2 = strTemplateURLSplit[1].split('?');
+			
+			
+		var strContentType;
+			strContentType = "application/vnd.com.citrix.netscaler."+strTemplateURLSplit2[0]+"+json";
+
+        var objRESTOperation;
+            objRESTOperation = new RESTOperation(strOperationName);
+            objRESTOperation.method = strMethod;
+            objRESTOperation.urlTemplate = strTemplateURL;
+            objRESTOperation.defaultContentType = strContentType;
+ 			System.log("RESTOperation: "+ strOperationName);
+			System.log("\tMethod: "+ strMethod);
+			System.log("\turlTemplate: "+ strTemplateURL);
+	        objRESTOperation = NetScalerHost.addOperation(objRESTOperation);
+			RESTHostManager.updateHost(NetScalerHost);
+    }
+        </script>
+
+        <in-binding>
+            <bind name="NetScalerHost" type="REST:RESTHost" export-name="NetScalerHost"/>
+        </in-binding>
+
+        <out-binding/>
+
+        <position x="204.5" y="55.40909090909091"/>
+    </workflow-item>
+
+    <presentation>
+        <p-param name="NetScalerHost">
+            <desc>NetscalerHost</desc>
+            <p-qual kind="static" name="mandatory" type="boolean">true</p-qual>
+        </p-param>
+    </presentation>
+</workflow>
