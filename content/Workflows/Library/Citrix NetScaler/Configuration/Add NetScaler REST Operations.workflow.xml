@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="4.2.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="d9243c60-e891-4425-864d-888909f97f83" version="4.4.0" api-version="6.0.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
     <display-name>Add NetScaler REST Operations</display-name>
 
     <description>
@@ -109,7 +109,14 @@ var objProperties;
 	objProperties.put("get|NetScaler-Service-GetAll","/service");
 	objProperties.put("get|NetScaler-Service-GetAll-Summary","/service?view=summary");
 	objProperties.put("get|NetScaler-Service-Get","/service/{serviceName}");
-	
+
+	//#######################################################################
+	//SSL Service Operations
+	objProperties.put("put|NetScaler-SSLService-Update|text/plain","/sslservice");
+	objProperties.put("post|NetScaler-SSLService-Unset","/sslservice?action=unset");
+	objProperties.put("get|NetScaler-SSLService-GetAll","/sslservice");
+	objProperties.put("get|NetScaler-SSLService-Get","/sslservice/{serviceName}");
+
 	//#######################################################################
 	//Server Operations
 	objProperties.put("post|NetScaler-Server-Add","/server");
@@ -155,7 +162,7 @@ var objProperties;
 	objProperties.put("get|NetScaler-CSpolicy-GetAll","/cspolicy");
 	objProperties.put("get|NetScaler-CSpolicy-GetAll-Summary","/cspolicy?view=summary");
 	objProperties.put("get|NetScaler-CSpolicy-Get","/cspolicy/{cspolicyName}");
-	
+
 var arrKeys;
     arrKeys = objProperties.keys;
  
@@ -185,7 +192,10 @@ var arrKeys;
 			
 			
 		var strContentType;
-			strContentType = "application/vnd.com.citrix.netscaler."+strTemplateURLSplit2[0]+"+json";
+			if (arrKey[2])
+				strContentType = arrKey[2];
+			else
+				strContentType = "application/vnd.com.citrix.netscaler."+strTemplateURLSplit2[0]+"+json";
 
         var objRESTOperation;
             objRESTOperation = new RESTOperation(strOperationName);

@@ -13,7 +13,7 @@ Include Ant and OpenSSL binary paths to Windows PATH environment variable
 and openssl.cnf -file path to OPENSSL_CONF environment variable.
 
 Build:
-git clone https://github.com/olljanat/vco-netscaler-base.git
+git clone https://github.com/cars/vco-netscaler-base.git
 ant build
 
 Install:

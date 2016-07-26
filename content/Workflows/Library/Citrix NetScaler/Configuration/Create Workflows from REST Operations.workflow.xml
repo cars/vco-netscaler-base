@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="8272e24a-7b26-4c43-b5b9-fb4f4d62e7e8" version="1.1.0" api-version="3.1.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
-    <display-name>Create Worflows from REST Operations</display-name>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="8272e24a-7b26-4c43-b5b9-fb4f4d62e7e8" version="1.1.0" api-version="6.0.0" allowed-operations="fve" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Create Workflows from REST Operations</display-name>
 
     <description>Given a RESTHost this workflow will create a workflow for each REST Operation defined on the host</description>
 
